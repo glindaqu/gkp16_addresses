@@ -29,3 +29,4 @@ replay_pid*
 build
 unzipped
 .kotlin
+.DS_Store
