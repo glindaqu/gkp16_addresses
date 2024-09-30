@@ -10,7 +10,9 @@ class InteractiveMapApplication
 fun main(args: Array<String>) {
 //	runApplication<InteractiveMapApplication>(*args)
 	val excelParser = ExcelParser.create("/Users/glindaqu/Downloads/Telegram Desktop/адреса по участкам.xlsx")
-	excelParser.parse()
+	excelParser.parse(onRowParsed = {
+		println(it.toString())
+	})
 }
 
 
