@@ -62,9 +62,7 @@ class ExcelParser private constructor(private val xlsxFilepath: String) : IExcel
                 val flatNumberCell = addressesColumns.item(j)
                 val peopleCountCell = flatsColumns.item(j)
                 if (flatNumberCell == null || flatNumberCell.childNodes == null ||
-                    flatNumberCell.childNodes.length == 0 || flatNumberCell.childNodes.item(0).nodeName != "v"
-                    || peopleCountCell == null || peopleCountCell.childNodes == null ||
-                    peopleCountCell.childNodes.length == 0 || peopleCountCell.childNodes.item(0).nodeName != "v") {
+                    flatNumberCell.childNodes.length == 0 || flatNumberCell.childNodes.item(0).nodeName != "v") {
                     break
                 }
                 val isString = flatNumberCell.hasAttributes()
@@ -74,7 +72,11 @@ class ExcelParser private constructor(private val xlsxFilepath: String) : IExcel
                 } else {
                     address.HouseNumber = flatNumberCell.childNodes.item(0).textContent
                 }
-                address.FlatCount = peopleCountCell.childNodes.item(0).textContent
+
+                if (peopleCountCell != null && peopleCountCell.childNodes != null &&
+                        peopleCountCell.childNodes.length != 0 && peopleCountCell.childNodes.item(0).nodeName == "v") {
+                    address.FlatCount = peopleCountCell.childNodes.item(0).textContent
+                }
                 onRowParsed(address)
             }
         }
