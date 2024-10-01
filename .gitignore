@@ -30,3 +30,5 @@ build
 unzipped
 .kotlin
 .DS_Store
+
+secrets.kt

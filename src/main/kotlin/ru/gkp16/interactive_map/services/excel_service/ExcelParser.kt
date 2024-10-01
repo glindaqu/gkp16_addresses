@@ -10,11 +10,13 @@ import kotlin.jvm.Throws
 class ExcelParser private constructor(private val xlsxFilepath: String) : IExcelParser {
 
     private val xlsxFile = File(xlsxFilepath)
-    private val unpackDirectory = Paths.get("").toAbsolutePath().toString() + "/unzipped/"
-    private val xmlService = XmlService.create(
-        filepath = unpackDirectory + "xl/worksheets/sheet1.xml",
-        stringPullPath = unpackDirectory + "xl/sharedStrings.xml"
-    )
+    private val unpackDirectory = Paths.get("").toAbsolutePath().toString() + "\\unzipped\\"
+    private val xmlService by lazy {
+        XmlService.create(
+            filepath = unpackDirectory + "xl\\worksheets\\sheet1.xml",
+            stringPullPath = unpackDirectory + "xl\\sharedStrings.xml"
+        )
+    }
 
     companion object {
         fun create(filepath: String): ExcelParser = ExcelParser(filepath)
@@ -85,7 +87,7 @@ class ExcelParser private constructor(private val xlsxFilepath: String) : IExcel
     @Throws(ExcelParserException::class)
     override fun parse(onRowParsed: (Address) -> Unit) {
         prepare()
-        unzip()
+//        unzip()
 
         val rows = xmlService.read().getElementsByTagName("row")
 
