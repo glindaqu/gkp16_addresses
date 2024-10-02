@@ -18,13 +18,70 @@
     <div id="map"></div>
 
     <script th:inline="javascript">
+        const getMDColor = index => {
+            switch (index) {
+                case 0: return "ff2e39";
+                case 1: return "3f48cc";
+                case 2: return "000000";
+                case 3: return "5d874e";
+                case 4: return "6d436e";
+            }
+        };
+        const createCustomMarker = (model, onMarkerClick) => {
+            const myIcon = L.icon({
+                iconUrl: `http://leafletmap:81/pointers/point_${model.medicalDivision}.png`,
+                iconSize: [30, 30],
+                iconAnchor: [15, 15],
+                popupAnchor: [0, 0],
+            });
+            return L.marker(new L.LatLng(model.latitude, model.longitude), {
+                icon: myIcon,
+                title: `${model.prefix} ${model.Street} ${model.houseNumber}`
+            }).on("click", () => { onMarkerClick(model) });
+        }
         let map = new L.map('map', {
             center: new L.LatLng(54.98356, 82.88706),
             zoom: 14,
             layers: new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
         });
         let addresses = [[${addresses}]];
-        console.log(addresses);
+        let medDivList = [ [], [], [], [], [], [] ];
+        addresses.forEach(address => { medDivList[address.medicalDivision - 1].push(createCustomMarker(address, {})); });
+        const hex2rgb = hex => {
+            hex = hex.length == 6 ? hex : '0' + hex;
+            const r = parseInt(hex.slice(0, 2), 16);
+            const g = parseInt(hex.slice(2, 4), 16);
+            const b = parseInt(hex.slice(4, 6), 16);
+            return { r, g, b };
+        }
+
+        for (let i = 0; i < medDivList.length; i++) {
+            let mDGroup = L.markerClusterGroup({
+                iconCreateFunction: cluster => {
+                    const bgcolor = getMDColor(i);
+                    const rgbBgColor = hex2rgb(bgcolor);
+                    return L.divIcon({
+                        html: `
+                            <div class="rounded-markers-count-0" style="
+                                background-color: #${bgcolor} !important;
+                                box-shadow:
+                                    0 0 0 5px rgba(${rgbBgColor.r}, ${rgbBgColor.g}, ${rgbBgColor.b}, 0.4),
+                                    0 0 2px 10px rgba(${rgbBgColor.r}, ${rgbBgColor.g}, ${rgbBgColor.b}, 0.3);
+                                "
+                            >
+                                <span>${cluster.getChildCount()}</span>
+                            </div
+                        `,
+                        className: 'custom-marker-cluster',
+                        iconSize: L.point(50, 50, true),
+                    });
+                }
+            });
+            for (let j = 0; j < medDivList[i].length; j++) {
+                medDivList[i][j].addTo(mDGroup);
+            }
+            mDGroup.addTo(map);
+        }
     </script>
 
 </body>
