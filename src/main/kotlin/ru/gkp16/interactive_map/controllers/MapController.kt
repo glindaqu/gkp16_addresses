@@ -14,6 +14,6 @@ class MapController {
     fun map(model: Model): String {
         val addresses = mapService.getAllAddresses()
         model.addAttribute("addresses", addresses)
-        return "map"
+        return "searching_form"
     }
 }

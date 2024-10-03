@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск</title>
+    <link th:href="@{/styles/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="header">
+            <div class="header_options_item">Поиск по адресу</div>
+            <div class="header_options_item">Поиск по участку</div>
+            <div class="header_options_item">Карта</div>
+        </header>
+
+        <div class="content">
+
+            <form class="searching_form">
+                <label>
+                    <input class="address_input" placeholder="Введите адрес" id="address_input"/>
+                </label>
+            </form>
+
+            <div class="addresses_container" id="addresses_container"></div>
+
+        </div>
+
+    </div>
+
+    <script th:inline="javascript">
+        let addresses = [[${addresses}]];
+        const container = document.getElementById("addresses_container");
+
+        document.addEventListener("DOMContentLoaded", () => {
+            for (let i = 0; i < 50; i++) {
+                let address = addresses[i];
+                container.innerHTML += `
+                    <div class="addresses_container_item">
+                        <div class="addresses_container_item_address">${address.street}, ${address.houseNumber}</div>
+                        <div class="addresses_container_item_medical_division">${address.medicalDivision}</div>
+                        <div class="addresses_container_item_region">${address.region}</div>
+                    </div>
+                `;
+            }
+        });
+
+        const search = document.getElementById("address_input");
+
+        search.addEventListener("input", () => {
+            let filtered = addresses.filter(address => {
+                const stringAddress = `${address.street} ${address.houseNumber} ${address.prefix}`;
+                return stringAddress
+                            .toLowerCase()
+                            .includes(search
+                                        .value
+                                        .toLowerCase()
+                            )
+                });
+
+            container.innerHTML = "";
+            const iterations = filtered.length > 50 ? 50 : filtered.length;
+            for (let i = 0; i < iterations; i++) {
+                const address = filtered[i];
+                container.innerHTML += `
+                    <div class="addresses_container_item">
+                        <div class="addresses_container_item_address">${address.street}, ${address.houseNumber}</div>
+                        <div class="addresses_container_item_medical_division">${address.medicalDivision}</div>
+                        <div class="addresses_container_item_region">${address.region}</div>
+                    </div>
+                `;
+            }
+        });
+
+
+    </script>
+
+</body>
+</html>
