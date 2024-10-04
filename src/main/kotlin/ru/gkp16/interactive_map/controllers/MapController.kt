@@ -16,4 +16,9 @@ class MapController {
         model.addAttribute("addresses", addresses)
         return "searching_form"
     }
+
+    @GetMapping("/regions")
+    fun regionsTable(model: Model): String {
+        return "regions"
+    }
 }

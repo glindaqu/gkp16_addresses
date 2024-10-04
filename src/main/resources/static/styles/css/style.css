@@ -10,6 +10,7 @@ body {
     margin: 0 auto;
     width: 100%;
     height: 100vh;
+    background-color: #efefef;
 }
 
 .container {
@@ -25,31 +26,86 @@ body {
     gap: 5%;
     align-items: center;
     box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.5);
+    background-color: white;
 }
 
 .header_options_item {
     text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
 }
 
 .content {
     width: 90%;
     margin: 2% auto;
-}
-
-.addresses_container {
-
-}
-
-.addresses_container_item {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.addresses_container,
+.searching-form {
     width: 100%;
 }
 
+.address_input {
+    width: 50%;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    background-color: #d2d4c8;
+}
+
+.addresses_container {
+    width: 50%;
+    display: flex;
+    margin: 20px auto;
+    flex-direction: column;
+}
+
+.addresses_container_body {
+    gap: 2px;
+    display: flex;
+    flex-direction: column;
+    height: 65vh;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
+.addresses_container_header_item {
+    background-color: #889696;
+    margin-bottom: 2px;
+}
+
+.addresses_container_header_item > * {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.addresses_container_item {
+    background-color: white;
+}
+
+.addresses_container_header_item,
+.addresses_container_item {
+    display: flex;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.addresses_container_item {
+    background-color: #d2d4c8;
+    margin: 0 auto;
+}
+
 .addresses_container_item_address {
-    width: 15%;
+    width: 50%;
 }
 
 .addresses_container_item_medical_division,
 .addresses_container_item_region {
-    width: 2%;
+    width: 25%;
+    text-align: center;
 }

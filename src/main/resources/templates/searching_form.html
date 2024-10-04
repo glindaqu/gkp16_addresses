@@ -10,20 +10,25 @@
     <div class="container">
 
         <header class="header">
-            <div class="header_options_item">Поиск по адресу</div>
-            <div class="header_options_item">Поиск по участку</div>
-            <div class="header_options_item">Карта</div>
+            <a href="/" class="header_options_item">Поиск по адресу</a>
+            <a href="/regions" class="header_options_item">Поиск по участку</a>
+            <a href="http://10.174.246.199/m/" target="_blank" class="header_options_item">Карта</a>
         </header>
 
         <div class="content">
 
-            <form class="searching_form">
-                <label>
-                    <input class="address_input" placeholder="Введите адрес" id="address_input"/>
-                </label>
-            </form>
+            <input class="address_input" placeholder="Введите адрес" id="address_input"/>
 
-            <div class="addresses_container" id="addresses_container"></div>
+            <div class="addresses_container" id="addresses_container">
+                <div class="addresses_container_header">
+                    <div class="addresses_container_header_item">
+                        <div class="addresses_container_item_address">Адрес</div>
+                        <div class="addresses_container_item_medical_division">№ТО</div>
+                        <div class="addresses_container_item_region">Участок</div>
+                    </div>
+                </div>
+                <div class="addresses_container_body" id="addresses_container_body"></div>
+            </div>
 
         </div>
 
@@ -31,7 +36,7 @@
 
     <script th:inline="javascript">
         let addresses = [[${addresses}]];
-        const container = document.getElementById("addresses_container");
+        const container = document.getElementById("addresses_container_body");
 
         document.addEventListener("DOMContentLoaded", () => {
             for (let i = 0; i < 50; i++) {
@@ -50,14 +55,18 @@
 
         search.addEventListener("input", () => {
             let filtered = addresses.filter(address => {
-                const stringAddress = `${address.street} ${address.houseNumber} ${address.prefix}`;
-                return stringAddress
-                            .toLowerCase()
-                            .includes(search
-                                        .value
-                                        .toLowerCase()
-                            )
-                });
+                const stringAddress = `${address.street} ${address.houseNumber}`;
+                let result = true;
+                let splitArr = search.value.toLowerCase().trim().split(' ');
+                for (index in splitArr) {
+                    let needle = splitArr[index];
+                    if (!stringAddress.toLowerCase().includes(needle)) {
+                        result = false;
+                        break;
+                    }
+                }
+                return result;
+            });
 
             container.innerHTML = "";
             const iterations = filtered.length > 50 ? 50 : filtered.length;
@@ -72,8 +81,6 @@
                 `;
             }
         });
-
-
     </script>
 
 </body>
