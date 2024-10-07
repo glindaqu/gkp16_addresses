@@ -4,18 +4,22 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.gkp16.interactive_map.types.map_service.Address
+import ru.gkp16.interactive_map.types.map_service.Region
 
 interface IMapService {
     @GET("get-addresses.php")
     fun getAddresses(): Call<List<Address>>
 
-    @GET("exists.php")
+    @GET("get-regions.php")
+    fun getRegions(): Call<List<Region>>
+
+    @GET("address-exists.php")
     fun isAddressExists(
         @Query("street") street: String,
         @Query("housenumber") houseNumber: String
     ): Call<Boolean>
 
-    @GET("upd.php")
+    @GET("address-update.php")
     fun updateAddress(
         @Query("street") street: String,
         @Query("housenumber") houseNumber: String,
@@ -24,7 +28,7 @@ interface IMapService {
         @Query("region") region: String?
     ): Call<Void>
 
-    @GET("add.php")
+    @GET("address-add.php")
     fun insertAddress(
         @Query("prefix") prefix: String,
         @Query("street") street: String,

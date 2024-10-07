@@ -6,6 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.gkp16.interactive_map.services.yandex_geocoder_service.YandexGeocoderService
 import ru.gkp16.interactive_map.types.map_service.Address
+import ru.gkp16.interactive_map.types.map_service.Region
 
 @Service
 class MapService {
@@ -23,6 +24,16 @@ class MapService {
     fun getAllAddresses(): List<Address>? {
         try {
             val response = service.getAddresses().execute()
+            return response.body()
+        } catch (exception: Exception) {
+            logger.error(exception.message)
+        }
+        return null
+    }
+
+    fun getAllRegions(): List<Region>? {
+        try {
+            val response = service.getRegions().execute()
             return response.body()
         } catch (exception: Exception) {
             logger.error(exception.message)

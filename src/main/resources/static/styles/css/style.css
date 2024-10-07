@@ -45,11 +45,13 @@ body {
     align-items: center;
 }
 
+.regions_container,
 .addresses_container,
 .searching-form {
     width: 100%;
 }
 
+.region_med_div_input,
 .address_input {
     width: 50%;
     padding: 10px 20px;
@@ -58,6 +60,7 @@ body {
     background-color: #d2d4c8;
 }
 
+.regions_container,
 .addresses_container {
     width: 50%;
     display: flex;
@@ -65,6 +68,7 @@ body {
     flex-direction: column;
 }
 
+.regions_container_body,
 .addresses_container_body {
     gap: 2px;
     display: flex;
@@ -74,20 +78,25 @@ body {
     scrollbar-width: none;
 }
 
+.regions_container_header_item,
 .addresses_container_header_item {
     background-color: #889696;
     margin-bottom: 2px;
 }
 
+.regions_container_header_item > *,
 .addresses_container_header_item > * {
     font-size: 16px;
     font-weight: bold;
 }
 
+.regions_container_item,
 .addresses_container_item {
     background-color: white;
 }
 
+.regions_container_header_item,
+.regions_container_item,
 .addresses_container_header_item,
 .addresses_container_item {
     display: flex;
@@ -95,13 +104,21 @@ body {
     padding: 10px 20px;
 }
 
+.regions_container_item,
 .addresses_container_item {
     background-color: #d2d4c8;
     margin: 0 auto;
 }
 
+.regions_container_header_item > *,
+.regions_container_item > *,
 .addresses_container_item_address {
     width: 50%;
+}
+
+.regions_container_header_item > *,
+.regions_container_item > * {
+    text-align: center;
 }
 
 .addresses_container_item_medical_division,

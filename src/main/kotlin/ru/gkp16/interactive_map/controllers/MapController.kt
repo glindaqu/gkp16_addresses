@@ -19,6 +19,8 @@ class MapController {
 
     @GetMapping("/regions")
     fun regionsTable(model: Model): String {
+        val regions = mapService.getAllRegions()
+        model.addAttribute("regions", regions)
         return "regions"
     }
 }

@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Участки и ТО</title>
+    <link rel="stylesheet" th:href="@{/styles/css/style.css}" />
 </head>
 <body>
+
+<div class="container">
+
+    <header class="header">
+        <a href="/" class="header_options_item">Поиск по адресу</a>
+        <a href="/regions" class="header_options_item">Поиск по участку</a>
+        <a href="http://10.174.246.199/m/" target="_blank" class="header_options_item">Карта</a>
+    </header>
+
+    <div class="content">
+
+        <input class="region_med_div_input" placeholder="Введите номер участка" id="region_input"/>
+
+        <div class="regions_container">
+            <div class="regions_container_header">
+                <div class="regions_container_header_item">
+                    <div class="regions_container_header_item_region">Участок</div>
+                    <div class="regions_container_header_item_med_div">Терапевтическое отделение</div>
+                </div>
+            </div>
+            <div class="regions_container_body" id="regions_container_body"></div>
+        </div>
+
+    </div>
+
+    <script th:inline="javascript">
+        let regions = [[${regions}]];
+        const container = document.getElementById("regions_container_body");
+        const input = document.getElementById("region_input");
+        document.addEventListener("DOMContentLoaded", () => {
+            regions.forEach(region => {
+                container.innerHTML += `
+                    <div class="regions_container_item">
+                        <div class="regions_container_item_region">${region.id}</div>
+                        <div class="regions_container_item_med_div">${region.md}</div>
+                    </div>
+                `;
+            });
+        });
+        input.addEventListener("input", () => {
+            const filtered = regions.filter(region => region.id.includes(input.value));
+            container.innerHTML = "";
+            filtered.forEach(region => {
+                container.innerHTML += `
+                    <div class="regions_container_item">
+                        <div class="regions_container_item_region">${region.id}</div>
+                        <div class="regions_container_item_med_div">${region.md}</div>
+                    </div>
+                `;
+            });
+        });
+    </script>
+
+</div>
 
 </body>
 </html>
