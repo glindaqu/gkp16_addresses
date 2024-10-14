@@ -12,8 +12,8 @@ import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.file.Paths
-import ru.homyakin.iuliia.Schemas;
-import ru.homyakin.iuliia.Translator;
+import ru.homyakin.iuliia.Schemas
+import ru.homyakin.iuliia.Translator
 
 
 @Controller
