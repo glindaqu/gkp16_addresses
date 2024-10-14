@@ -32,3 +32,10 @@ unzipped
 .DS_Store
 
 secrets.kt
+
+# xl related files
+\[Content_Types\].xml
+*.xlsx
+xl/
+_rels
+docProps/

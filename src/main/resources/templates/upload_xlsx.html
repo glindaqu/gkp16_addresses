@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Загруза xlsx файла</title>
+    <link th:href="@{/styles/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+<div class="container">
+
+    <header class="header">
+        <a href="/" class="header_options_item">Поиск по адресу</a>
+        <a href="/regions" class="header_options_item">Поиск по участку</a>
+        <a href="http://10.174.246.199/m/" target="_blank" class="header_options_item">Карта</a>
+    </header>
+
+    <div class="content">
+
+        <form action="upload" method="post" enctype="multipart/form-data">
+            File to upload:
+            <input type="file" name="file">
+            <br />
+            <br />
+            <input type="submit" value="Upload">
+            Press here to upload the file!
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -19,6 +19,12 @@ interface IMapService {
         @Query("housenumber") houseNumber: String
     ): Call<Boolean>
 
+    @GET("region-add.php")
+    fun insertRegion(
+        @Query("id") id: String,
+        @Query("md") medicalDivision: String
+    ): Call<Void>
+
     @GET("address-update.php")
     fun updateAddress(
         @Query("street") street: String,

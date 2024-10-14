@@ -10,11 +10,11 @@ import kotlin.jvm.Throws
 class ExcelParser private constructor(private val xlsxFilepath: String) : IExcelParser {
 
     private val xlsxFile = File(xlsxFilepath)
-    private val unpackDirectory = Paths.get("").toAbsolutePath().toString() + "\\unzipped\\"
+    private val unpackDirectory = Paths.get("").toAbsolutePath().toString()
     private val xmlService by lazy {
         XmlService.create(
-            filepath = unpackDirectory + "xl\\worksheets\\sheet1.xml",
-            stringPullPath = unpackDirectory + "xl\\sharedStrings.xml"
+            filepath = "\\$unpackDirectory\\xl\\worksheets\\sheet1.xml",
+            stringPullPath = "\\$unpackDirectory\\xl\\sharedStrings.xml"
         )
     }
 
@@ -34,9 +34,23 @@ class ExcelParser private constructor(private val xlsxFilepath: String) : IExcel
     }
 
     private fun unzip() {
-        ProcessBuilder().command("unzip", "-u", "-d", unpackDirectory, xlsxFilepath)
+        val os = System.getProperty("os.name").lowercase()
+        val processBuilder = when (os) {
+            "windows 10" -> {
+                ProcessBuilder().command("tar", "-xf", xlsxFilepath)
+            }
+            "linux" -> {
+                ProcessBuilder().command("unzip", "-u", "-d", unpackDirectory, xlsxFilepath)
+            }
+            else -> {
+                ProcessBuilder().command("unzip", "-u", xlsxFilepath)
+            }
+        }
+
+        processBuilder
             .redirectError(ProcessBuilder.Redirect.INHERIT)
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT).start()
+            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+            .start()
             .waitFor()
     }
 
@@ -57,7 +71,7 @@ class ExcelParser private constructor(private val xlsxFilepath: String) : IExcel
                 }
                 val address = Address(
                     Region = addressesColumns.item(0).textContent,
-                    MedicalDivision = xmlService.getString(addressesColumns.item(24).textContent.toInt()),
+                    MedicalDivision = xmlService.getString(addressesColumns.item(24).textContent.toInt())?.split(' ')?.get(0),
                     Street = xmlService.getString(addressesColumns.item(1).textContent.toInt()),
                     Prefix = xmlService.getString(addressesColumns.item(2).textContent.toInt())
                 )
@@ -87,7 +101,7 @@ class ExcelParser private constructor(private val xlsxFilepath: String) : IExcel
     @Throws(ExcelParserException::class)
     override fun parse(onRowParsed: (Address) -> Unit) {
         prepare()
-//        unzip()
+        unzip()
 
         val rows = xmlService.read().getElementsByTagName("row")
 

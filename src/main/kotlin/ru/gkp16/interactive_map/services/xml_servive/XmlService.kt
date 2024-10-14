@@ -32,7 +32,7 @@ class XmlService private constructor(filepath: String, private val stringPullPat
         val sharedStringsFile = File(stringPullPath)
 
         if (!sharedStringsFile.exists()) {
-            throw Exception("File doesn't exists")
+            throw XmlServiceException.FILE_DOES_NOT_EXISTS
         }
 
         val stringPullDocument = DocumentBuilderFactory

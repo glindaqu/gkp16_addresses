@@ -55,7 +55,15 @@ class MapService {
         return false
     }
 
-    fun updateAddress(addresses: List<Address>) {
+    fun updateRegions(addresses: List<Address>) {
+        addresses.forEach {
+            if (it.Region != null && it.MedicalDivision != null) {
+                service.insertRegion(it.Region!!, it.MedicalDivision!!).execute()
+            }
+        }
+    }
+
+    fun updateAddresses(addresses: List<Address>) {
         addresses.forEach {
             if (it.Street != null && it.HouseNumber != null) {
                 if (isAddressExists(it)) {
